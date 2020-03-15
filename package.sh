@@ -34,6 +34,8 @@ rm -rf aushelper@mozilla.org.xpi \
 
 cd "$vol" || exit 1
 mv "$app" "LibreWolf.app"
+rm .VolumeIcon.icns
+cp "$repo/media/VolumeIcon.icns" ./.VolumeIcon.icns
 
 cd "$repo" || exit 1
 
