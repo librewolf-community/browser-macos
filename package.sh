@@ -24,7 +24,6 @@ rm -rf plugin-container.app/Contents/_CodeSignature \
 cd ../Resources || exit 1
 rm -rf update-settings.ini updater.ini
 cp -aX "$repo/settings/." .
-rm firefox.icns
 cp "$repo/media/librewolf.icns" ./firefox.icns
 
 cd browser/features || exit 1
@@ -34,8 +33,9 @@ rm -rf aushelper@mozilla.org.xpi \
 
 cd "$vol" || exit 1
 mv "$app" "LibreWolf.app"
-rm .VolumeIcon.icns
 cp "$repo/media/VolumeIcon.icns" ./.VolumeIcon.icns
+cp "$repo/media/background.png" .background/background.png
+rm -rf .fseventsd
 
 cd "$repo" || exit 1
 
