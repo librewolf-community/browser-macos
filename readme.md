@@ -5,7 +5,7 @@
 ### Instructions
 
 1.  Place a Firefox `.dmg` in `~/Downloads` — `~/Downloads/ff.dmg`
-2.  `git clone https://gitlab.com/librewolf-community/browser/macos.git`
+2.  `git clone --recursive https://gitlab.com/librewolf-community/browser/macos.git`
 3.  `cd macos`
 4.  `./package.sh ~/Downloads/ff.dmg`
 
