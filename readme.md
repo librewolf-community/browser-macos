@@ -3,11 +3,11 @@
 ## Building
 
 ### Instructions
-
-1.  Place a Firefox `.dmg` in `~/Downloads` — `~/Downloads/ff.dmg`
-2.  `git clone --recursive https://gitlab.com/librewolf-community/browser/macos.git`
-3.  `cd macos`
-4.  `./package.sh ~/Downloads/ff.dmg`
+  
+1.  `git clone --recursive https://gitlab.com/librewolf-community/browser/macos.git`
+2.  `cd macos`
+3.  `[Optional] Place a Firefox `.dmg` in macos dir otherwise latest release of Firefox will be downloaded`
+4.  `./package.sh [path/to/Firefox.dmg]`
 
     ```
     "disk3" ejected.
