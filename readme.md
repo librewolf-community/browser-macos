@@ -1,62 +1,62 @@
 # LibreWolf macOS
 
+OSX version of LibreWolf.
+
+The `./patches` are partially taken from the [Windows](https://gitlab.com/librewolf-community/browser/windows/) repository, I mainly removed some Windows related stuff and added a new patch. The build script is mostly based on the above mentioned Windows repository, a ton of thanks to the maintainer who basically made this possible, and in general to all the LW community.
+
+In case of feedback, suggestions or trouble fill an issue and let's solve it togheter! I would in particular appreciate feedback and contribution on the bulding process which so far has been tested on BigSur.
+
+## Useful links
+- [Releases](https://gitlab.com/librewolf-community/browser/macos/-/releases)
+- [Build guide](./build_guide.md)
+- [Issue tracker](https://gitlab.com/librewolf-community/browser/macos/-/issues)
+- LibreWolf [settings repository](https://gitlab.com/librewolf-community/settings)
+- Our community on [gitter](https://gitter.im/librewolf-community/librewolf)
+- [r/LibreWolf](https://www.reddit.com/r/LibreWolf/)
+- [Docs](https://librewolf.readthedocs.io/en/latest/)
+
 ## Building
+This section is a condesed version of the build guide](./build_guide.md). I suggest to check it out in full, at least before your first build.
+
+### Prerequisites
+Below I'll list the partial prerequisites to build the browser. This section was finally tested on a clean osx device running BigSur. Ideally you will need to perform the following actions only once, when building for the first time.
+
+#### Homebrew
+Install [Homebrew](https://brew.sh/) using:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+then:
+```
+brew install mercurial wget yasm
+```
+#### Xcode
+Install Xcode from the App Store, then:
+```
+sudo xcode-select --switch /Applications/Xcode.app
+sudo xcodebuild -license
+```
+#### .mozbuild
+Use the following commands to create `~/.mozbuild`:
+```
+curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O
+python3 bootstrap.py
+```
+When prompted to select a mode enter 2 so that most dependencies will be included. After the process is finished remove useless files with `rm -rf bootstrap.py mozilla-unified`.
 
 ### Instructions
-  
-1.  `git clone --recursive https://gitlab.com/librewolf-community/browser/macos.git`
-2.  `cd macos`
-3.  `[Optional] Place a Firefox `.dmg` in macos dir otherwise latest release of Firefox will be downloaded`
-4.  `./package.sh [path/to/Firefox.dmg]`
-
-    ```
-    "disk3" ejected.
-    Preparing imaging engine…
-    Reading Driver Descriptor Map (DDM : 0)…
-    (CRC32 $BAB1946F: Driver Descriptor Map (DDM : 0))
-    Reading Apple (Apple_partition_map : 1)…
-    (CRC32 $C133292C: Apple (Apple_partition_map : 1))
-    Reading Macintosh (Apple_Driver_ATAPI : 2)…
-    (CRC32 $C71C0011: Macintosh (Apple_Driver_ATAPI : 2))
-    Reading Mac_OS_X (Apple_HFSX : 3)…
-    .........................................................................
-    (CRC32 $C07F196B: Mac_OS_X (Apple_HFSX : 3))
-    Reading  (Apple_Free : 4)…
-    ..........................................................................
-    (CRC32 $00000000:  (Apple_Free : 4))
-    Adding resources…
-    ..........................................................................
-    Elapsed Time: 10.034s
-    File size: 84362685 bytes, Checksum: CRC32 $55286B19
-    Sectors processed: 411730, 407569 compressed
-    Speed: 19.8Mbytes/sec
-    Savings: 60.0%
-    created: /Users/(redacted)/Downloads/LibreWolf.dmg
-    ```
-
-A LW `dmg` named `LibreWolf.dmg` will be created in `~/Downloads`.
-
-### Troubleshooting
-
-#### `Firefox 1.app: No such file or directory`
-
+Clone this repo and enter the directory:
 ```
-$ ./package.sh ~/Downloads/ff.dmg
-Firefox 1.app: No such file or directory
-./package.sh: line 14: cd: Firefox 1.app/Contents: No such file or directory
+git clone --recursive https://gitlab.com/fxbrit/macos
+cd macos
 ```
-
-You probably have a disk image mounted under the name `Firefox`. Eject that, use a fresh copy of the FF `dmg`, and try again.
-
-#### `Firefox.app: No such file or directory`
-
+then:
 ```
-$ ./package.sh ~/Downloads/ff.dmg
-Firefox.app: No such file or directory
-./package.sh: line 14: cd: Firefox.app/Contents: No such file or directory
+./build.sh fetch extract get_patches apply_patches other_patches branding build package
 ```
+or the shorter and equivalent `./build.sh full` .
 
-This is probably a result of using the same FF `dmg` for more than one build. Use fresh FF `dmg`s for each build.
+At the end of the process, inside your `Applications` you will find `LibreWolf.app`. A .zip of the app will also be available in `~/Downloads`.
 
 ## License
 

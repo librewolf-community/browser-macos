@@ -1,3 +1,6 @@
 [submodule "settings"]
 	path = settings
 	url = https://gitlab.com/librewolf-community/settings
+[submodule "common"]
+	path = common
+	url = https://gitlab.com/librewolf-community/browser/common
