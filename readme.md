@@ -16,7 +16,7 @@ In case of feedback, suggestions or trouble fill an issue and let's solve it tog
 - [Docs](https://librewolf.readthedocs.io/en/latest/)
 
 ## Building
-This section is a condesed version of the build guide](./build_guide.md). I suggest to check it out in full, at least before your first build.
+This section is a condesed version of the build guide. I suggest to check it out in full, at least before your first build.
 
 ### Prerequisites
 Below I'll list the partial prerequisites to build the browser. This section was finally tested on a clean osx device running BigSur. Ideally you will need to perform the following actions only once, when building for the first time.
