@@ -3,31 +3,33 @@
 pkgver=87.0
 objdir=obj-x86_64-apple-darwin20.3.0/dist/librewolf
 ospkg=app
+bold=$(tput bold)
+normal=$(tput sgr0)
 
 
 fetch() {
     
-    echo "--- Fetching Firefox source code ---"
+    echo "\n${bold}-> Fetching Firefox source code${normal}\n"
     wget https://archive.mozilla.org/pub/firefox/releases/$pkgver/source/firefox-$pkgver.source.tar.xz
     if [ $? -ne 0 ]; then exit 1; fi
     if [ ! -f firefox-$pkgver.source.tar.xz ]; then exit 1; fi
-    echo "--- Retrieved firefox-$pkgver.source.tar.xz ---\n"
+    echo "${bold}-> Retrieved firefox-$pkgver.source.tar.xz ${normal}"
 
 }
 
 extract() {
 
-    echo "--- Extracting firefox-$pkgver.source.tar.xz (might take a while) ---"
+    echo "\n${bold}-> Extracting firefox-$pkgver.source.tar.xz (might take a while)${normal}"
     tar xf firefox-$pkgver.source.tar.xz
     if [ $? -ne 0 ]; then exit 1; fi
     if [ ! -d firefox-$pkgver ]; then exit 1; fi
-    echo "--- Extracted successfully ---\n"
+    echo "${bold}-> Extracted successfully ${normal}"
 
 }
 
 get_patches() {
 
-    echo "--- Fetching Librewolf patches ---"
+    echo "\n${bold}-> Fetching Librewolf patches${normal}"
     wget -q https://gitlab.com/librewolf-community/browser/linux/-/raw/master/context-menu.patch
     if [ $? -ne 0 ]; then exit 1; fi
     if [ ! -f context-menu.patch ]; then exit 1; fi
@@ -40,13 +42,13 @@ get_patches() {
     wget -q https://gitlab.com/librewolf-community/browser/linux/-/raw/master/remove_addons.patch
     if [ $? -ne 0 ]; then exit 1; fi
     if [ ! -f remove_addons.patch ]; then exit 1; fi
-    echo "--- Patches retrieved successfully ---\n"
+    echo "${bold}-> Patches retrieved successfully ${normal}"
 
 }
 
 apply_patches() {
 
-    echo "--- Creating mozconfig ---"
+    echo "\n${bold}-> Creating mozconfig${normal}"
     if [ ! -d firefox-$pkgver ]; then exit 1; fi
     cd firefox-$pkgver
     
@@ -85,7 +87,7 @@ mk_add_options MOZ_TELEMETRY_REPORTING=0
 
 END
 
-    echo "--- Applying Librewolf patches ---\n"
+    echo "\n${bold}-> Applying Librewolf patches${normal}"
     patch -p1 -i ../context-menu.patch
     if [ $? -ne 0 ]; then exit 1; fi
     patch -p1 -i ../megabar.patch
@@ -94,7 +96,7 @@ END
     if [ $? -ne 0 ]; then exit 1; fi
     patch -p1 -i ../remove_addons.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    echo "--- Patches applied successfully ---\n"
+    echo "${bold}-> Patches applied successfully${normal}"
 
     cd ..
 
@@ -106,16 +108,16 @@ other_patches() {
 
     patch -p1 -i ../patches/allow-searchengines-non-esr.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    echo "--- Enabled search engines options ---"
+    echo "${bold}-> Enabled search engines options${normal}"
     patch -p1 -i ../patches/disable-pocket.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    echo "--- Disabled Pocket ---"
+    echo "${bold}-> Disabled Pocket${normal}"
     patch -p1 -i ../patches/remove-internal-plugin-certs.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    echo "--- Removed internal plugin certificates ---"
+    echo "${bold}-> Removed internal plugin certificates${normal}"
     patch -p1 -i ../patches/stop-undesired-requests.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    echo "--- Stopped undesired requests ---\n"
+    echo "${bold}-> Stopped undesired requests${normal}"
 
     cd ..
 
@@ -130,19 +132,19 @@ branding() {
     if [ $? -ne 0 ]; then exit 1; fi
     patch -p1 -i ../patches/browser-confvars.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    echo "--- Rebranded Librewolf ---\n\n"
+    echo "${bold}-> Rebranded Librewolf${normal}\n"
     
     cp -v ../mozconfig .
 
     cd ..
-    echo "--- READY TO BUILD ---\n\n"
+    echo "${bold}-> READY TO BUILD${normal}\n"
 
 }
 
 
 build() {
 
-    echo "OK, let's build.\n"
+    echo "\n${bold}-> OK, let's build.${normal}\n"
     if [ ! -d firefox-$pkgver ]; then exit 1; fi
     cd firefox-$pkgver
     
@@ -150,7 +152,7 @@ build() {
     if [ $? -ne 0 ]; then exit 1; fi
     
     cd ..
-    echo "\n--- BUILD ENDED SUCCESSFULLY --- \n"
+    echo "\n${bold}-> BUILD ENDED SUCCESSFULLY${normal}\n"
 
 }
 
@@ -160,23 +162,38 @@ package() {
     cd firefox-$pkgver
     ./mach package
     if [ $? -ne 0 ]; then exit 1; fi
-    echo "Applying final touches..."
+    echo "${bold}-> Applying final touches${normal}"
 
     cp -r $objdir ..
     cd ..
     cp -rv settings/* librewolf/LibreWolf.$ospkg/Contents/Resources 
-    echo "--- Set Librewolf settings ---\n"
+    echo "${bold}-> Set Librewolf settings${normal}"
     rm librewolf/LibreWolf.$ospkg/Contents/MacOS/pingsender
-    echo "--- Creating .zip ---\n"
-    zip -qr9 librewolf-$pkgver.en-US.zip librewolf
+
+    echo "\n${bold}-> DONE${normal}\n"
+
+}
+
+add_to_apps() {
+
+    echo "\n${bold}-> Creating .zip${normal}"
+    cp -v readme.md librewolf
+    zip -qr9 librewolf-$pkgver.zip librewolf
     if [ $? -ne 0 ]; then exit 1; fi
 
-    echo "\n--- DONE ---\n"
+    cp -v librewolf/LibreWolf.$ospkg /Applications
+    cp -v librewolf-$pkgver.zip ~/Downloads
 
-    mv -v librewolf/LibreWolf.$ospkg /Applications
-    mv -v librewolf-$pkgver.en-US.zip ~/Downloads
+    echo "\n${bold}-> LibreWolf.app available in /Applications\n"
 
-    echo "\nLibreWolf.app available in /Applications\n"
+}
+
+cleanup() {
+
+    echo "${bold}-> Cleaning (migth take a while)${normal}"
+    rm *.patch mozconfig librewolf-$pkgver.zip
+    rm -rf firefox-* librewolf
+    echo "${bold}-> All leftovers now gone${normal}"
 
 }
 
@@ -229,20 +246,62 @@ if [[ "$*" == *full* ]]; then
     full
     done_something=1
 fi
-
+if [[ "$*" == *add_to_apps* ]]; then
+    add_to_apps
+    done_something=1
+fi
+if [[ "$*" == *cleanup* ]]; then
+    cleanup
+    done_something=1
+fi
 
 # by default, give help..
 if (( done_something == 0 )); then
     cat <<EOF
 
-Welcome!
-Examples:
-    
-    ./build.sh full
+Build script for the OSX version of LibreWolf.
+For more details check the build guide: https://gitlab.com/librewolf-community/browser/macos/-/blob/master/build_guide.md
 
-    or
+${bold}BUILD${normal}
+
+    ${bold}./build.sh${normal} [options]
+
+${bold}BUILD OPTIONS${normal}
+
+    ${bold}full${normal}
+        The full build process, includes all the build options
     
-    ./build.sh fetch extract get_patches apply_patches other_patches branding build package
+    ${bold}fetch${normal}
+        Fetches the source code
+
+    ${bold}extract${normal}
+        Extracts the source code
+    
+    ${bold}get_patches${normal}
+        Fetches LibreWolf patches
+    
+    ${bold}apply_patches${normal}
+        Applies LibreWolf patches
+    
+    ${bold}other_patches${normal}
+        Applies patches from patch directory
+    
+    ${bold}branding${normal}
+        Applies LibreWolf branding
+    
+    ${bold}build${normal}
+        ./mach build
+    
+    ${bold}package${normal}
+        ./mach package and final tweaks
+
+${bold}OTHER OPTIONS${normal}
+
+    ${bold}add_to_apps${normal}
+        After the build it can be used to create a .zip and then move LibreWolf to Applications
+
+    ${bold}cleanup${normal}
+        Removes leftovers from previous build processes
     
 EOF
     exit 1
