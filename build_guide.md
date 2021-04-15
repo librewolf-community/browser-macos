@@ -70,11 +70,12 @@ git clone --recursive https://gitlab.com/fxbrit/macos
 cd macos
 ```
 
-After this to build enter:
+Entering `./build.sh` will give us a visual output with a list of all the available options in the script.
+To build enter:
 ```
 ./build.sh full
 ```
-This will take a while, so bring back the coffee and the book from the Xcode section. Once the process finishes we will find in the `Appilcations` directory `LibreWolf.app`, and a .zip of the app itself in `~/Downloads`.
+This will take a while, so bring back the coffee and the book from the Xcode section.
 
 The `full` option of the script file will perform the following tasks in order:
 ```
@@ -88,13 +89,14 @@ build
 package
 ```
 They can also be run singularly, by entering them after `./build.sh` instead of `full`, or it is possible to chain them separated by a single space. So for example we can say that `./build.sh full` is equivalent to `./build.sh fetch extract get_patches apply_patches other_patches branding build package`.
+After the build process is completed the script will also allow to generate a .zip, to add LibreWolf to the applications or to remove all the build leftovers, respectively through `add_to_apps` and `cleanup`.
 
 In the rest of the guide we will focus on describing what each function of the build script does.
 
 #### fetch
 Uses `wget` to download a certain version of Firefox from Mozilla archive, to use it as a base for LibreWolf.
 #### extract
-As the code downloaded using fetch is compressed this function will extract it. It usually takes a while for this part to complete.
+As the code downloaded using fetch is compressed this function will extract it. It usually takes a while for this part to complete and you will need about 4GB of disk space otherwise the process will fail.
 #### get_patches
 Uses `wget` to download LibreWolf patches from the [Linux repository](https://gitlab.com/librewolf-community/browser/linux/) .
 #### apply_patches
@@ -106,4 +108,8 @@ Fully rebrands the browser to LibreWolf, by moving the branding files from the [
 #### build
 This is the real building process, which should take from 60 to 90 minutes. Once it is completed a success message is displayed.
 #### package
-Performs `./mach package`, then takes the previously built .app, strips some unused stuff from it, applies the LibreWolf settings from the [settings directory](./settings), and then finally moves it in the `Applications` folder. It also creates a .zip which can be found in `~/Downloads` as previously mentioned.
+Performs `./mach package`, then takes the previously built .app, strips some unused stuff from it and applies the LibreWolf settings from the [settings directory](./settings)
+#### add_to_apps
+As previously mentioned, moves LibreWolf.app in the `Applications` folder and creates a .zip containing LibreWolf.app and readme.md, which can be found in `~/Downloads`.
+#### cleanup
+Removes leftover files and folders from previous build processes.
