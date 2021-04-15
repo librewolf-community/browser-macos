@@ -66,7 +66,7 @@ In this section we are going to describe how to start the real build process, bu
 
 First of all, clone the repository and move in it, by entering:
 ```
-git clone --recursive https://gitlab.com/fxbrit/macos
+git clone --recursive https://gitlab.com/librewolf-community/browser/macos
 cd macos
 ```
 
