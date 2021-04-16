@@ -1,5 +1,5 @@
 ## Utilities
-This directory contains a collection of utility scripts that can be in the context of building and releasing LibreWolf.
+This directory contains a collection of utility scripts that can be used in the context of building and releasing LibreWolf.
 
 #### disk-image
 The script allows to generate a good looking .dmg before a release, by using [create-dmg](https://github.com/sindresorhus/create-dmg).
