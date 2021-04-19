@@ -181,7 +181,8 @@ add_to_apps() {
     zip -qr9 librewolf-$pkgver.zip librewolf
     if [ $? -ne 0 ]; then exit 1; fi
 
-    cp -v librewolf/LibreWolf.$ospkg /Applications
+    rm librewolf/readme.md
+    cp -r librewolf/* /Applications    
     cp -v librewolf-$pkgver.zip ~/Downloads
 
     echo "\n${bold}-> LibreWolf.app available in /Applications\n"
