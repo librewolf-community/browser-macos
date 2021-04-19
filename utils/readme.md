@@ -10,7 +10,7 @@ npm install --global create-dmg
 ```
 then:
 ```
-./release.sh release_ver
+./disk-image release_ver
 ```
 where `release_ver` could be for example `78.0-1`.
 
