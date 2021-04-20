@@ -1,7 +1,7 @@
 #!/bin/sh
 
 pkgver=88.0
-objdir=obj-x86_64-apple-darwin20.3.0/dist/librewolf
+objdir=obj-*/dist/librewolf
 ospkg=app
 bold=$(tput bold)
 normal=$(tput sgr0)
