@@ -27,6 +27,12 @@ In particular:
 - `wget`: used by the build script to download the source code of the desired Firefox base version, as well as a bunch of LibreWolf patches.
 - `yasm`: used in the build process and unfortunately not included in the build dependencies provided by Mozilla when using the bootstrap script.
 
+**NOTE**: on M1 powered machines the bootstrap script is unable to install some of the dependencies. As a consequence, if you own an ARM based MacBook, you will need to perform two additional steps:
+1. `brew install rustup-init`
+2. `cargo install cbindgen`
+
+Both dependencies are need during the build process, and these are the only additional steps that M1 users have to perform during the entire building process.
+
 #### Xcode
 Install Xcode from the [App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12). This usually takes a while so grab a coffee and a good book.
 
@@ -52,11 +58,11 @@ python3 bootstrap.py
 In the Homebrew section we mentioned that this script requires `mercurial` to work, as Mozilla source code is hosted in Mercurial repositories.
 
 Once the script starts it will require to hit enter to use the default clone location, then after waiting for a while, further interactions will be required. In particular:
-- We will be required to select a Firefox version that we want to build: enter `2` to select Firefox for Desktop, as it is the option which includes all required dependencies (except for `yasm` that we already installed manually), including `rust` and `cbindgen`. This is **important**, as it might cause your build process to fail if you do not pick the right option.
+- We will be required to select a Firefox version that we want to build: enter `2` to select Firefox for Desktop, as it is the option which includes all required dependencies (except for `yasm` that we already installed manually), including `rust` and `cbindgen` (M1 users already installed these dependencies manually in the prerequisites). This is **important**, as it might cause your build process to fail if you do not pick the right option.
 - We will be notified that the script wants to create a directory for the build tools: enter `y` to let the script create the default directory.
 - We will be asked to run a configuration wizard for Mercurial: enter `n`.
 - We will be asked to enable the build telemetry system: enter `n`.
-- We will be asled whether we want to submit commits to Mozilla: enter `n`.
+- We will be asked whether we want to submit commits to Mozilla: enter `n`.
 
 When the full process finishes we should see a success message with the suggestion to close the terminal. Do it, then open it again and to verify that the script worked enter `ls -la`: both `.mozbuild` and `mozilla-unified` directories should be in the home folder.
 We can now enter `rm -rf bootstrap.py mozilla-unified` as those directories are related to building Firefox and we do not need them to build LibreWolf.
