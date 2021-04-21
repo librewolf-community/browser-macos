@@ -112,10 +112,28 @@ Applies most of the patches present in the [patches directory](./patches), excep
 #### branding
 Fully rebrands the browser to LibreWolf, by moving the branding files from the [common directory](./common) inside the base Firefox directory. It also applies two branding related patches from the [patches directory](./patches), and then moves the previously created `mozconfig` inside the base Firefox directory as well.
 #### build
-This is the real building process, which should take from 60 to 90 minutes. Once it is completed a success message is displayed.
+This is the real building process, which should take from 60 to 90 minutes (for M1 users it should take from 20 to 30 minutes). Once it is completed a success message is displayed.
 #### package
 Performs `./mach package`, then takes the previously built .app, strips some unused stuff from it and applies the LibreWolf settings from the [settings directory](./settings)
 #### add_to_apps
 As previously mentioned, moves LibreWolf.app in the `Applications` folder and creates a .zip containing LibreWolf.app and readme.md, which can be found in `~/Downloads`.
 #### cleanup
 Removes leftover files and folders from previous build processes.
+#### xcomp
+Allows to build for `aarch64` on a `x86` machines. See the next paragraph.
+
+## Building for aarch64 on an x86 machine
+With some tweaks it is possible to succesfully build a LibreWolf version targeted at M1 machines, on an Intel based MacBook.
+
+First of all it is necessary to install the rust target for ARM-based machines, by entering in your terminal:
+```
+rustup target add aarch64-apple-darwin
+```
+This is a prerequisite and it should be performed only when cross-compiling for the first absolute time.
+
+After this preliminary step, the only difference with the normal build process is that we should specify inside `mozconfig` that we want to compile for a different architecture, and we can do so by using the `xcomp` part of the build script, which should be necessarily applied before the branding.
+So for example a good set of instructions for this purpose would be:
+```
+./build.sh fetch extract get_patches apply_patches other_patches xcomp branding build package
+```
+which is equivalent to `./build.sh full_x`.
