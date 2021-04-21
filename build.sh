@@ -123,6 +123,13 @@ other_patches() {
 
 }
 
+xcomp () {
+
+    echo "ac_add_options --target=aarch64" >> mozconfig
+    echo "${bold}-> Prepared to cross-compile${normal}"
+
+}
+
 branding() {
 
     cd firefox-$pkgver
@@ -209,6 +216,18 @@ full() {
     package
 }
 
+full_x () {
+    fetch
+    extract
+    get_patches
+    apply_patches
+    other_patches
+    xcomp
+    branding
+    build
+    package
+}
+
 # process commandline arguments and do something
 done_something=0
 if [[ "$*" == *fetch* ]]; then
@@ -255,8 +274,11 @@ if [[ "$*" == *cleanup* ]]; then
     cleanup
     done_something=1
 fi
+if [[ "$*" == *xcomp* ]]; then
+    xcomp
+    done_something=1
+fi
 
-# by default, give help..
 if (( done_something == 0 )); then
     cat <<EOF
 
