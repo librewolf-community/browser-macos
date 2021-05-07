@@ -1,6 +1,6 @@
 #!/bin/sh
 
-pkgver=88.0
+pkgver=88.0.1
 objdir=obj-*/dist/librewolf
 ospkg=app
 bold=$(tput bold)
@@ -123,10 +123,17 @@ other_patches() {
 
 }
 
-xcomp () {
+xcomp() {
 
     echo "ac_add_options --target=aarch64" >> mozconfig
     echo "${bold}-> Prepared to cross-compile${normal}"
+
+}
+
+sdk() {
+
+    echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> mozconfig
+    echo "${bold}-> Using SDK from .mozbuild${normal}"
 
 }
 
@@ -278,6 +285,10 @@ if [[ "$*" == *xcomp* ]]; then
     xcomp
     done_something=1
 fi
+if [[ "$*" == *sdk* ]]; then
+    sdk
+    done_something=1
+fi
 
 if (( done_something == 0 )); then
     cat <<EOF
@@ -325,6 +336,12 @@ ${bold}OTHER OPTIONS${normal}
 
     ${bold}cleanup${normal}
         Removes leftovers from previous build processes
+
+    ${bold}xcomp${normal}
+        Build for aarm64 on x86 machines
+
+    ${bold}sdk${normal}
+        Use an older SDK
     
 EOF
     exit 1

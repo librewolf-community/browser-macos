@@ -44,6 +44,8 @@ sudo xcodebuild -license
 The first command will change the developer directory path so, as already mentioned, it is important to run it after installing Homebrew in order to avoid it being changed again. If you want to check your path enter `xcode-select -p`, it should be set to `/Applications/Xcode.app/Contents/Developer`.
 The second command will show a license and will then ask us to agree to it.
 
+**NOTE**: in some cases Xcode updates can ship with SDK versions that are not supported by Mozilla build process. In that case it will be necessary to follow the steps at the end of this guide.
+
 #### .mozbuild
 We will now download and use the Mozilla `bootstrap.py`, which allows to get most of the dependencies needed to build Firefox from source. This script also downloads the mozilla-unified repository, which we do not need to build LibreWolf, but unfortunately a workaround isn't available, so we will download it and later delete it.
 
@@ -121,6 +123,8 @@ As previously mentioned, moves LibreWolf.app in the `Applications` folder and cr
 Removes leftover files and folders from previous build processes.
 #### xcomp
 Allows to build for `aarch64` on a `x86` machines. See the next paragraph.
+#### sdk
+Allow to build using a different SDK than the one that comes with Xcode. See the related paragraph below.
 
 ## Building for aarch64 on an x86 machine
 With some tweaks it is possible to succesfully build a LibreWolf version targeted at M1 machines, on an Intel based MacBook.
@@ -137,3 +141,16 @@ So for example a good set of instructions for this purpose would be:
 ./build.sh fetch extract get_patches apply_patches other_patches xcomp branding build package
 ```
 which is equivalent to `./build.sh full_x`.
+
+## In case your SDK version is unsupported
+With newest Xcode versions it might happen that your macOS SDK is too new to work with the build tools. If that's the case you will need to get an older SDK, place it in `~/.mozbuild/macos-sdk/` and then specify that you want to use it during the build process.
+This is achieved by following these steps:
+1. Go to [this link](https://developer.apple.com/download/more/), download `Xcode_8.2.xip` and then extract it.
+2. Enter:
+```
+mkdir -p ~/.mozbuild/macos-sdk
+cp -aH ~/Downloads/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk ~/.mozbuild/macos-sdk/
+```
+3. From now on use the `sdk` part of the build script, which should be applied before the branding.
+
+Steps number 1 and 2 will have to be executed only once, while you will have to execute steps 3 everytime you build.
