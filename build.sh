@@ -189,7 +189,6 @@ cleanup() {
 full() {
     fetch
     extract
-    get_patches
     apply_patches
     branding
     build
@@ -199,7 +198,6 @@ full() {
 full_x () {
     fetch
     extract
-    get_patches
     apply_patches
     xcomp
     branding
@@ -215,10 +213,6 @@ if [[ "$*" == *fetch* ]]; then
 fi
 if [[ "$*" == *extract* ]]; then
     extract
-    done_something=1
-fi
-if [[ "$*" == *get_patches* ]]; then
-    get_patches
     done_something=1
 fi
 if [[ "$*" == *apply_patches* ]]; then
@@ -278,9 +272,6 @@ ${bold}BUILD OPTIONS${normal}
 
     ${bold}extract${normal}
         Extracts the source code
-    
-    ${bold}get_patches${normal}
-        Fetches LibreWolf patches
     
     ${bold}apply_patches${normal}
         Applies LibreWolf patches

@@ -89,13 +89,12 @@ The `full` option of the script file will perform the following tasks in order:
 ```
 fetch
 extract
-get_patches
 apply_patches
 branding
 build
 package
 ```
-They can also be run singularly, by entering them after `./build.sh` instead of `full`, or it is possible to chain them separated by a single space. So for example we can say that `./build.sh full` is equivalent to `./build.sh fetch extract get_patches apply_patches branding build package`.
+They can also be run singularly, by entering them after `./build.sh` instead of `full`, or it is possible to chain them separated by a single space. So for example we can say that `./build.sh full` is equivalent to `./build.sh fetch extract apply_patches branding build package`.
 After the build process is completed the script will also allow to generate a .zip, to add LibreWolf to the applications or to remove all the build leftovers, respectively through `add_to_apps` and `cleanup`.
 
 In the rest of the guide we will focus on describing what each function of the build script does.
@@ -104,8 +103,6 @@ In the rest of the guide we will focus on describing what each function of the b
 Uses `wget` to download a certain version of Firefox from Mozilla archive, to use it as a base for LibreWolf.
 #### extract
 As the code downloaded using fetch is compressed this function will extract it. It usually takes a while for this part to complete and you will need about 4GB of disk space otherwise the process will fail.
-#### get_patches
-Uses `wget` to download LibreWolf patches from the [Linux repository](https://gitlab.com/librewolf-community/browser/linux/) .
 #### apply_patches
 Creates `mozconfig`, which contains the build options that will be used during the build process. It also applies the patches from the [common directory](./common).
 #### branding
@@ -135,7 +132,7 @@ This is a prerequisite and it should be performed only when cross-compiling for 
 After this preliminary step, the only difference with the normal build process is that we should specify inside `mozconfig` that we want to compile for a different architecture, and we can do so by using the `xcomp` part of the build script, which should be obviously applied before the build.
 So for example a good set of instructions for this purpose would be:
 ```
-./build.sh fetch extract get_patches apply_patches xcomp branding build package
+./build.sh fetch extract apply_patches xcomp branding build package
 ```
 which is equivalent to `./build.sh full_x`.
 
