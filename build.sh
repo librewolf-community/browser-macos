@@ -27,25 +27,6 @@ extract() {
 
 }
 
-get_patches() {
-
-    echo "\n${bold}-> Fetching Librewolf patches${normal}"
-    wget -q https://gitlab.com/librewolf-community/browser/linux/-/raw/master/context-menu.patch
-    if [ $? -ne 0 ]; then exit 1; fi
-    if [ ! -f context-menu.patch ]; then exit 1; fi
-    wget -q https://gitlab.com/librewolf-community/browser/linux/-/raw/master/megabar.patch
-    if [ $? -ne 0 ]; then exit 1; fi
-    if [ ! -f megabar.patch ]; then exit 1; fi
-    wget -q https://gitlab.com/librewolf-community/browser/linux/-/raw/master/mozilla-vpn-ad.patch
-    if [ $? -ne 0 ]; then exit 1; fi
-    if [ ! -f mozilla-vpn-ad.patch ]; then exit 1; fi
-    wget -q https://gitlab.com/librewolf-community/browser/linux/-/raw/master/remove_addons.patch
-    if [ $? -ne 0 ]; then exit 1; fi
-    if [ ! -f remove_addons.patch ]; then exit 1; fi
-    echo "${bold}-> Patches retrieved successfully ${normal}"
-
-}
-
 apply_patches() {
 
     echo "\n${bold}-> Creating mozconfig${normal}"
@@ -88,36 +69,26 @@ mk_add_options MOZ_TELEMETRY_REPORTING=0
 END
 
     echo "\n${bold}-> Applying Librewolf patches${normal}"
-    patch -p1 -i ../context-menu.patch
+    patch -p1 -i ../common/patches/context-menu.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    patch -p1 -i ../megabar.patch
+    patch -p1 -i ../common/patches/megabar.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    patch -p1 -i ../mozilla-vpn-ad.patch
+    patch -p1 -i ../common/patches/mozilla-vpn-ad.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    patch -p1 -i ../remove_addons.patch
+    patch -p1 -i ../common/patches/remove_addons.patch
+    if [ $? -ne 0 ]; then exit 1; fi
+    patch -p1 -i ../common/patches/urlbarprovider-interventions.patch
+    if [ $? -ne 0 ]; then exit 1; fi
+
+    patch -p1 -i ../common/patches/sed-patches/allow-searchengines-non-esr.patch
+    if [ $? -ne 0 ]; then exit 1; fi
+    patch -p1 -i ../common/patches/sed-patches/disable-pocket.patch
+    if [ $? -ne 0 ]; then exit 1; fi
+    patch -p1 -i ../common/patches/sed-patches/remove-internal-plugin-certs.patch
+    if [ $? -ne 0 ]; then exit 1; fi
+    patch -p1 -i ../common/patches/sed-patches/stop-undesired-requests.patch
     if [ $? -ne 0 ]; then exit 1; fi
     echo "${bold}-> Patches applied successfully${normal}"
-
-    cd ..
-
-}
-
-other_patches() {
-
-    cd firefox-$pkgver
-
-    patch -p1 -i ../patches/allow-searchengines-non-esr.patch
-    if [ $? -ne 0 ]; then exit 1; fi
-    echo "${bold}-> Enabled search engines options${normal}"
-    patch -p1 -i ../patches/disable-pocket.patch
-    if [ $? -ne 0 ]; then exit 1; fi
-    echo "${bold}-> Disabled Pocket${normal}"
-    patch -p1 -i ../patches/remove-internal-plugin-certs.patch
-    if [ $? -ne 0 ]; then exit 1; fi
-    echo "${bold}-> Removed internal plugin certificates${normal}"
-    patch -p1 -i ../patches/stop-undesired-requests.patch
-    if [ $? -ne 0 ]; then exit 1; fi
-    echo "${bold}-> Stopped undesired requests${normal}"
 
     cd ..
 
@@ -130,7 +101,7 @@ xcomp() {
 
 }
 
-sdk() {
+old_sdk() {
 
     echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> mozconfig
     echo "${bold}-> Using SDK from .mozbuild${normal}"
@@ -144,11 +115,9 @@ branding() {
     cp -vr ../common/source_files/* ./
     patch -p1 -i ../patches/browser-branding-configure.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    patch -p1 -i ../patches/browser-confvars.patch
+    patch -p1 -i ../common/patches/browser-confvars.patch
     if [ $? -ne 0 ]; then exit 1; fi
     echo "${bold}-> Rebranded Librewolf${normal}\n"
-    
-    cp -v ../mozconfig .
 
     cd ..
     echo "${bold}-> READY TO BUILD${normal}\n"
@@ -161,6 +130,8 @@ build() {
     echo "\n${bold}-> OK, let's build.${normal}\n"
     if [ ! -d firefox-$pkgver ]; then exit 1; fi
     cd firefox-$pkgver
+
+    cp -v ../mozconfig .
     
     ./mach build
     if [ $? -ne 0 ]; then exit 1; fi
@@ -217,7 +188,6 @@ full() {
     extract
     get_patches
     apply_patches
-    other_patches
     branding
     build
     package
@@ -228,7 +198,6 @@ full_x () {
     extract
     get_patches
     apply_patches
-    other_patches
     xcomp
     branding
     build
@@ -251,10 +220,6 @@ if [[ "$*" == *get_patches* ]]; then
 fi
 if [[ "$*" == *apply_patches* ]]; then
     apply_patches
-    done_something=1
-fi
-if [[ "$*" == *other_patches* ]]; then
-    other_patches
     done_something=1
 fi
 if [[ "$*" == *branding* ]]; then
@@ -285,8 +250,8 @@ if [[ "$*" == *xcomp* ]]; then
     xcomp
     done_something=1
 fi
-if [[ "$*" == *sdk* ]]; then
-    sdk
+if [[ "$*" == *old_sdk* ]]; then
+    old_sdk
     done_something=1
 fi
 
@@ -317,9 +282,6 @@ ${bold}BUILD OPTIONS${normal}
     ${bold}apply_patches${normal}
         Applies LibreWolf patches
     
-    ${bold}other_patches${normal}
-        Applies patches from patch directory
-    
     ${bold}branding${normal}
         Applies LibreWolf branding
     
@@ -340,7 +302,7 @@ ${bold}OTHER OPTIONS${normal}
     ${bold}xcomp${normal}
         Build for aarm64 on x86 machines
 
-    ${bold}sdk${normal}
+    ${bold}old_sdk${normal}
         Use an older SDK
     
 EOF
