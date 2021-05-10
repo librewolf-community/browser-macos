@@ -151,7 +151,10 @@ package() {
 
     cp -r $objdir ..
     cd ..
-    cp -rv settings/* librewolf/LibreWolf.$ospkg/Contents/Resources 
+    cp -rv settings/* librewolf/LibreWolf.$ospkg/Contents/Resources
+    rm -rf librewolf/LibreWolf.$ospkg/Contents/Resources/docs
+    rm librewolf/LibreWolf.$ospkg/Contents/Resources/LICENSE.txt
+    rm librewolf/LibreWolf.$ospkg/Contents/Resources/README.md
     echo "${bold}-> Set Librewolf settings${normal}"
     rm librewolf/LibreWolf.$ospkg/Contents/MacOS/pingsender
 
