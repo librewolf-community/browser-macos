@@ -139,11 +139,11 @@ which is equivalent to `./build.sh full_x`.
 ## In case your SDK version is unsupported
 With newest Xcode versions it might happen that your macOS SDK is too new to work with the build tools. If that's the case you will need to get an older SDK, place it in `~/.mozbuild/macos-sdk/` and then specify that you want to use it during the build process.
 This is achieved by following these steps:
-1. Go to [this link](https://developer.apple.com/download/more/), download `Xcode_8.2.xip` and then extract it.
+1. Go to [this link](https://developer.apple.com/download/more/), download `Xcode_12.4.xip` and then extract it.
 2. Enter:
 ```
 mkdir -p ~/.mozbuild/macos-sdk
-cp -aH ~/Downloads/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk ~/.mozbuild/macos-sdk/
+cp -aH ~/Downloads/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk ~/.mozbuild/macos-sdk/
 ```
 3. From now on use the `old_sdk` part of the build script, which should be applied before the build
 

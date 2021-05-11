@@ -103,7 +103,7 @@ xcomp() {
 
 old_sdk() {
 
-    echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX10.12.sdk" >> mozconfig
+    echo "ac_add_options --with-macos-sdk=$HOME/.mozbuild/macos-sdk/MacOSX11.1.sdk" >> mozconfig
     echo "${bold}-> Using SDK from .mozbuild${normal}"
 
 }
