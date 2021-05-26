@@ -90,6 +90,9 @@ END
     if [ $? -ne 0 ]; then exit 1; fi
     echo "${bold}-> Patches applied successfully${normal}"
 
+    # cp -f ../patches/search-config.json ./services/settings/dumps/main/
+    # echo "${bold}-> Removed search extension${normal}"
+
     cd ..
 
 }
