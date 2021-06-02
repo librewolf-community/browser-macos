@@ -12,7 +12,7 @@ In case of feedback, suggestions or trouble fill an issue and let's solve it tog
 - LibreWolf [settings repository](https://gitlab.com/librewolf-community/settings)
 - Our community on [gitter](https://gitter.im/librewolf-community/librewolf)
 - [Website](https://librewolf-community.gitlab.io/)
-- [Docs](https://librewolf.readthedocs.io/en/latest/)
+- [FAQ](https://gitlab.com/librewolf-community/settings/-/wikis/FAQ)
 - [r/LibreWolf](https://www.reddit.com/r/LibreWolf/)
 
 ## Notes and thanks
