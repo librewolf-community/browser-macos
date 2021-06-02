@@ -1,6 +1,6 @@
 #!/bin/sh
 
-pkgver=88.0.1
+pkgver=89.0
 objdir=obj-*/dist/librewolf
 ospkg=app
 bold=$(tput bold)
@@ -69,11 +69,11 @@ mk_add_options MOZ_TELEMETRY_REPORTING=0
 END
 
     echo "\n${bold}-> Applying Librewolf patches${normal}"
-    patch -p1 -i ../common/patches/context-menu.patch
+    patch -p1 -i ../patches/context-menu2.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    patch -p1 -i ../common/patches/megabar.patch
+    patch -p1 -i ../patches/megabar2.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    patch -p1 -i ../common/patches/mozilla-vpn-ad.patch
+    patch -p1 -i ../patches/mozilla-vpn-ad.patch
     if [ $? -ne 0 ]; then exit 1; fi
     patch -p1 -i ../common/patches/remove_addons.patch
     if [ $? -ne 0 ]; then exit 1; fi
@@ -90,8 +90,8 @@ END
     if [ $? -ne 0 ]; then exit 1; fi
     echo "${bold}-> Patches applied successfully${normal}"
 
-    # cp -f ../patches/search-config.json ./services/settings/dumps/main/
-    # echo "${bold}-> Removed search extension${normal}"
+    cp -f ../patches/search-config.json ./services/settings/dumps/main/
+    echo "${bold}-> Removed search extension${normal}"
 
     cd ..
 
