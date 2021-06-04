@@ -8,6 +8,7 @@ In case of feedback, suggestions or trouble fill an issue and let's solve it tog
 ## Useful links
 - [Releases](https://gitlab.com/librewolf-community/browser/macos/-/releases): download the latest .dmg for an easy install process. Releases are available for both x86 and aarch64, although in the second case they are marked as experimental, as they are not tested.
 - [Build guide](./build_guide.md): if you want to build from source. The build process supports both x86 and aarch64, as well as cross-compiling for aarch64 on x86 machines.
+- [HomeBrew tap](https://gitlab.com/fxbrit/homebrew-librewolf): we now have an experimental brew tap, which means that you can add it entering `brew tap fxbrit/librewolf https://gitlab.com/fxbrit/homebrew-librewolf` and the install LibreWolf with `brew install librewolf`. Give it a try!
 - [Issue tracker](https://gitlab.com/librewolf-community/browser/macos/-/issues)
 - LibreWolf [settings repository](https://gitlab.com/librewolf-community/settings)
 - Our community on [gitter](https://gitter.im/librewolf-community/librewolf)
