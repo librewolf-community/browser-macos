@@ -121,6 +121,9 @@ Allows to build for `aarch64` on a `x86` machines. See the next paragraph.
 Allow to build using a different SDK than the one that comes with Xcode. See the related paragraph below.
 
 ## Building for aarch64 on an x86 machine
+
+**Note**: it has been reported that cross-compiling produces builds that fail to launch, despite successfully completing the compile process.
+
 With some tweaks it is possible to succesfully build a LibreWolf version targeted at M1 machines, on an Intel based MacBook.
 
 First of all it is necessary to install the rust target for ARM-based machines, by entering in your terminal:
