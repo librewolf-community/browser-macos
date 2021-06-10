@@ -122,7 +122,7 @@ Allow to build using a different SDK than the one that comes with Xcode. See the
 
 ## Building for aarch64 on an x86 machine
 
-**Note**: it has been reported that cross-compiling produces builds that fail to launch, despite successfully completing the compile process.
+**Note**: it has been reported that cross-compiling produces builds that fail to launch, despite successfully completing the compile process. The issue seems to be related to the fact that macOS sets an extended attribute that indicates the file as broken on the very first launch. Troubleshooting and discussion about this take place [here](https://gitlab.com/librewolf-community/browser/macos/-/issues/19).
 
 With some tweaks it is possible to succesfully build a LibreWolf version targeted at M1 machines, on an Intel based MacBook.
 

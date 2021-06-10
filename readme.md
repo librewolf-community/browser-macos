@@ -6,9 +6,9 @@ The browser can be built from source or it can be installed using a disk image, 
 In case of feedback, suggestions or trouble fill an issue and let's solve it togheter. I would, in particular, appreciate feedback and contribution on the bulding process which so far has been tested on BigSur.
 
 ## Useful links
-- [Releases](https://gitlab.com/librewolf-community/browser/macos/-/releases): download the latest .dmg for an easy install process. Releases are available for x86, while aarch64 releases have been removed as cross-compiling on Intel was not giving working builds.
+- [Releases](https://gitlab.com/librewolf-community/browser/macos/-/releases): download the latest .dmg for an easy install process. Releases are available for x86 and aarch64, although the second ones might show up as broken on the first launch, as macOS sets an extended attribute on our cross-compiled builds (troubleshooting and discussion take place [here](https://gitlab.com/librewolf-community/browser/macos/-/issues/19).
 - [Build guide](./build_guide.md): if you want to build from source. The build process supports both x86 and aarch64, as well as cross-compiling for aarch64 on x86 machines.
-- [HomeBrew tap](https://gitlab.com/fxbrit/homebrew-librewolf): we now have an experimental brew tap, which means that you can add it entering `brew tap fxbrit/librewolf https://gitlab.com/fxbrit/homebrew-librewolf` and the install LibreWolf with `brew install librewolf`. Give it a try!
+- [HomeBrew tap](https://gitlab.com/fxbrit/homebrew-librewolf): we now have an experimental brew tap (it doesn't handle updates yet), which means that you can add it entering `brew tap fxbrit/librewolf https://gitlab.com/fxbrit/homebrew-librewolf` and the install LibreWolf with `brew install librewolf`. Give it a try!
 - [Issue tracker](https://gitlab.com/librewolf-community/browser/macos/-/issues)
 - LibreWolf [settings repository](https://gitlab.com/librewolf-community/settings)
 - Our community on [gitter](https://gitter.im/librewolf-community/librewolf)
