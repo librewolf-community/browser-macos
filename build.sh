@@ -1,6 +1,6 @@
 #!/bin/sh
 
-pkgver=89.0
+pkgver=89.0.1
 objdir=obj-*/dist/librewolf
 ospkg=app
 bold=$(tput bold)
@@ -69,13 +69,19 @@ mk_add_options MOZ_TELEMETRY_REPORTING=0
 END
 
     echo "\n${bold}-> Applying Librewolf patches${normal}"
-    patch -p1 -i ../patches/context-menu2.patch
+    patch -p1 -i ../common/patches/about-dialog.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    patch -p1 -i ../patches/megabar2.patch
+    patch -p1 -i ../common/patches/allow_dark_preference_with_rfp.patch
     if [ $? -ne 0 ]; then exit 1; fi
-    patch -p1 -i ../patches/mozilla-vpn-ad.patch
+    patch -p1 -i ../common/patches/context-menu.patch
+    if [ $? -ne 0 ]; then exit 1; fi
+    patch -p1 -i ../common/patches/megabar.patch
+    if [ $? -ne 0 ]; then exit 1; fi
+    patch -p1 -i ../common/patches/mozilla-vpn-ad.patch
     if [ $? -ne 0 ]; then exit 1; fi
     patch -p1 -i ../common/patches/remove_addons.patch
+    if [ $? -ne 0 ]; then exit 1; fi
+    patch -p1 -i ../common/patches/search-config.patch
     if [ $? -ne 0 ]; then exit 1; fi
     patch -p1 -i ../common/patches/urlbarprovider-interventions.patch
     if [ $? -ne 0 ]; then exit 1; fi
