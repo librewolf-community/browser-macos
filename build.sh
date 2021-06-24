@@ -1,6 +1,6 @@
 #!/bin/sh
 
-pkgver=89.0.1
+pkgver=89.0.2
 objdir=obj-*/dist/librewolf
 ospkg=app
 bold=$(tput bold)
