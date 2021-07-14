@@ -54,7 +54,6 @@ ac_add_options --with-branding=browser/branding/librewolf
 ac_add_options --with-distribution-id=io.gitlab.librewolf-community
 ac_add_options --with-unsigned-addon-scopes=app,system
 ac_add_options --allow-addon-sideload
-export MOZ_REQUIRE_SIGNING=0
 
 # Features
 ac_add_options --disable-crashreporter
